@@ -74,7 +74,7 @@ class ProcessorTest < Minitest::Test
 
     processor = Processor.new(RepositoryManager.load_entries('event_two_attendees.csv'))
 
-    refute_equal 9, processor.repository_manager.entries.length
+    assert_equal 9, processor.repository_manager.entries.length
   end
 
   def test_data_in_queue_can_be_saved_to_a_file
