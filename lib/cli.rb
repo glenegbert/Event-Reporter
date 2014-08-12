@@ -1,3 +1,5 @@
+require 'help_message'
+
 class CLI
   attr_reader :reader, :writer
   
@@ -15,6 +17,10 @@ class CLI
 
     def print_message(message)
       output_stream.print message
+    end
+
+    def print_prompt
+      output_stream.print '>>'
     end
 
     private
