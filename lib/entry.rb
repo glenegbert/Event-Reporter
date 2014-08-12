@@ -22,6 +22,7 @@ attr_reader :reg_date,
   end
 
   def clean_phone_number(homephone)
+    # abstract out valid homephones, then use this method for case
     homephone = homephone.to_s.tr('^0-9', '')
     return 'No valid phone number.' if invalid_homephone? homephone
     return homephone.gsub(/(\d{3})(\d{3})(\d{4})/, '\1.\2.\3') if homephone.size == 10 
