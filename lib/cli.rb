@@ -10,6 +10,19 @@ class CLI
     @writer = writer
   end
 
+  def run
+    writer.print_message "Please load a csv file from to build a queue. Enter help for help using this program."
+  end
+
+  class Reader
+    def initialize(input_stream)
+      @input_stream = input_stream
+    end
+    
+    private
+      attr_reader :input_stream
+  end
+
   class Writer
     def initialize(output_stream)
       @output_stream = output_stream
@@ -27,12 +40,4 @@ class CLI
       attr_reader :output_stream
   end
 
-  class Reader
-    def initialize(input_stream)
-      @input_stream = input_stream
-    end
-    
-    private
-      attr_reader :input_stream
-  end
 end
