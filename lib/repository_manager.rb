@@ -5,8 +5,9 @@ class RepositoryManager
   attr_reader :entries
   attr_accessor :queue
 
-  def self.load_entries(directory='./data', file='event_attendees.csv')
-    file = File.join(directory, file)
+  def self.load_entries(file='event_attendees.csv')
+  # def self.load_entries(directory='./data', file='event_attendees.csv')
+    file = File.join('./data', file)
     data = CSV.open(file, headers: true, header_converters: :symbol)
     rows = data.map do |row|
       Entry.new(row)
