@@ -17,7 +17,7 @@ class EntryRepositoryTest < Minitest::Test
 
     repository_manager = RepositoryManager.new
     repository_manager.load_entries('event_two_attendees.csv')
-    repository_manager.find_by(:first_name, 'sarah')
+    repository_manager.find(:first_name, 'sarah')
 
     assert_equal 2, repository_manager.queue.length
 
