@@ -39,9 +39,6 @@ class CommandProcessor
     repository_manager.queue.length
   end
 
-  def find(field, match)
-    repository_manager.queue = repository_manager.entries.select{ |entry| entry.send(field) == match}
-  end
 
   def save_queue(to_file="saved_data.csv")
     File.open(to_file, "w") do |file|

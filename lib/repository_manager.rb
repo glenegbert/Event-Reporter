@@ -5,10 +5,10 @@ class RepositoryManager
   attr_reader :entries
   attr_accessor :queue
 
-  def self.load_entries(file='event_attendees.csv')
+  def load_entries(file='event_attendees.csv')
     data = parse_csv(file)
-    rows = data.map { |row| Entry.new(row) }
-    new(rows)
+    entries = data.map { |row| Entry.new(row) }
+
   end
 
   # def initialize(entries)
