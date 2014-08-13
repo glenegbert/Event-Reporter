@@ -36,6 +36,7 @@ class EntryTest < Minitest::Test
   def test_reformats_homephone
     data = { homephone: '11234567890' }
     assert_equal '(1) 123.456.7890', Entry.new(data).homephone
+    # test 10-digit
   end
 
   def test_cleans_zipcodes
