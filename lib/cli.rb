@@ -10,27 +10,39 @@ class CLI
     @reader = reader
     @writer = writer
     @processor = processor
-    writer._print "Please load a csv file upon which to build a queue.\n"
+    writer._print "Please first load a csv file upon which to build a queue.\n"
   end
 
   def run
-    command_parts = get_command # ? 
-    command_domain = command_parts.part1
-    return if command_domain == 'quit'
-    help_command(command_parts) if command_domain == 'help'
-    queue_command(command_parts) if command_domain == 'queue'
-    load_command(command_parts) if command_domain == 'load'
-    find_command(command_parts) if command_domain == 'find'
+    writer._print prompt
+    command_parts = reader.get_command  
+    command_parts ? send(command_parts.part_1, command_parts) : rerun 
+  end
+
+  def rerun
     writer._print invalid_message
     run
   end
 
   def help_command(command_parts)
-    command_parts.part3 ? processor.help_commands(command_parts.part2 + ' ' + command_parts.part3) : processor.help_commands(command_parts.part2)
+    command_parts.part3 ? processor.help(command_parts.part2 + ' ' + command_parts.part3) : processor.help(command_parts.part2)
   end
 
-  def queue_command
-    
+  def queue
+    rerun unless command_parts.part2
+    command_parts.part3 ? processor.send('queue' + '_' + command_parts.part2, command_parts.part3) : processor.send('queue' + '_' + command_parts.part2) 
+  end
+
+  def load
+    command_parts.part2 ? processor.load(command_parts.part_2) : processor.load
+  end
+
+  def find
+    rerun unless command_parts.part2 && command_parts.part3    
+    processor.find(command_parts.part2, command_parts.part3)
+  end
+
+  def quit
   end
   
   def get_command
@@ -47,11 +59,11 @@ class CLI
 
     def read_command
       command = gets.strip.downcase
-      interpret_input(command) if valid_command?(command)
+      parse_command(command) if valid_command?(command)
     end
 
     CommandParts = Struct.new(:part1, :part2, :part3)
-    def interpret_input(command)
+    def parse_command(command)
       command.match(command_parser)
       part2 = part2.empty? ? nil : part2.tr(' ', '_') 
       part3 = nil if part3.empty?
@@ -69,7 +81,7 @@ class CLI
                \s*
                (?<part2>\w*\s*(by|to)?)
                \s*
-               (?<part3>\w*)
+               (?<part3>\w*\s*(by|to)?)
                /
     end
     
@@ -95,7 +107,7 @@ class CLI
     end
 
     def invalid_message
-      "Invalid command. Enter 'help' for a list of valid commands."
+      "Invalid command or use of command. Enter 'help' for a list of valid commands."
     end
 
     private

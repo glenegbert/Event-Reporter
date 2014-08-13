@@ -1,10 +1,10 @@
 module HelpMessage
-  def help_commands(command = nil)
-    return help(command) if command
-    available_commands.reduce("") { |text,command| text + help(command) + "\n" }
+  def help(command = nil)
+    return help_command(command) if command
+    available_commands.reduce("") { |text,command| text + help_command(command) + "\n" }
   end
 
-  def help(command)
+  def help_command(command)
     case command
     when 'help' then 'help:  lists all available commands'
     when 'quit' then 'quit:  exit the program'
