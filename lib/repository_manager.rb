@@ -6,9 +6,7 @@ class RepositoryManager
   attr_accessor :queue
 
   def self.load_entries(file='event_attendees.csv')
-    #Explore abstracting into multiple methods
-    file = File.join('./data', file)
-    data = CSV.open(file, headers: true, header_converters: :symbol)
+    data = parse_csv(file)
     rows = data.map { |row| Entry.new(row) }
     new(rows)
   end
@@ -20,6 +18,13 @@ class RepositoryManager
 
   def find_by(attribute,criteria)
     self.queue = entries.select { |entry| entry.send(attribute) =~ /\s*#{criteria}\s*/i }
+  end
+
+  private
+
+  def parse_csv(file)
+    file_path = File.join('./data', file)
+    data = CSV.open(file_path, headers: true, header_converters: :symbol)
   end
 
 end
