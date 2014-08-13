@@ -21,3 +21,7 @@ module HelpMessage
 
 end
 
+  def available_commands
+      ['help', 'quit', 'load', 'queue count', 'queue clear', 'queue print', 'queue print by', 'queue save to', 'find']
+  end
+
