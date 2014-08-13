@@ -24,12 +24,15 @@ attr_reader :reg_date,
   def clean_phone_number(homephone)
     homephone = homephone.to_s.tr('^0-9', '')
     return 'No valid phone number.' if invalid_homephone? homephone
-    return homephone.gsub(/(\d{3})(\d{3})(\d{4})/, '\1.\2.\3') if homephone.size == 10 
-    return homephone.gsub(/(\d{1})(\d{3})(\d{3})(\d{4})/, '(\1) \2.\3.\4') if homephone.size == 11 
+    valid_homephone_format homephone
   end
 
   def invalid_homephone? homephone
     homephone.size < 10 || homephone.size > 11 || (homephone.size == 11 && homephone[0] != "1")
+  end
+
+  def valid_homephone_format(homephone)
+    homephone.size == 10 ? homephone.gsub(/(\d{3})(\d{3})(\d{4})/, '\1.\2.\3') :  homephone.gsub(/(\d{1})(\d{3})(\d{3})(\d{4})/, '(\1) \2.\3.\4')
   end
 
   def clean_zipcode(zipcode)
