@@ -35,4 +35,3 @@ class EntryRepositoryTest < Minitest::Test
     assert_equal 'Alice ', repository.queue[0].first_name
   end
 end
-
