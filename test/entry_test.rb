@@ -50,4 +50,3 @@ class EntryTest < Minitest::Test
     assert_equal '00000', Entry.new(data).zipcode
   end
 end
-

@@ -11,8 +11,10 @@ class RepositoryManager
     new(rows)
   end
 
-  def initialize(entries)
-    @entries = entries
+  # def initialize(entries)
+  def initialize
+    @entries = []
+    # @entries = entries
     @queue = []
   end
 
