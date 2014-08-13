@@ -1,12 +1,12 @@
 require 'help_message'
-require 'processor'
+require 'command_processor'
 
 class CLI
   attr_reader :reader, :writer, :processor
   
   include HelpMessage
 
-  def initialize(reader = Reader.new($stdin), writer = Writer.new($stdout), processor = Processor.new)
+  def initialize(reader = Reader.new($stdin), writer = Writer.new($stdout), processor = CommandProcessor.new)
     @reader = reader
     @writer = writer
     @processor = processor
@@ -15,7 +15,7 @@ class CLI
 
   def run
     writer._print prompt
-    command_parts = reader.get_command  
+    command_parts = get_command  
     command_parts ? send(command_parts.part_1, command_parts) : rerun 
   end
 
@@ -24,25 +24,25 @@ class CLI
     run
   end
 
-  def help_command(command_parts)
-    command_parts.part3 ? processor.help(command_parts.part2 + ' ' + command_parts.part3) : processor.help(command_parts.part2)
+  def help(command_parts)
+    writer._print(command_parts.part3 ? processor.help(command_parts.part2 + ' ' + command_parts.part3) : processor.help(command_parts.part2))
   end
 
-  def queue
+  def queue(command_parts)
     rerun unless command_parts.part2
     command_parts.part3 ? processor.send('queue' + '_' + command_parts.part2, command_parts.part3) : processor.send('queue' + '_' + command_parts.part2) 
   end
 
-  def load
-    command_parts.part2 ? processor.load(command_parts.part_2) : processor.load
+  def load(command_parts)
+    command_parts.part2 ? processor.repository_manager.load_entries(command_parts.part_2) : processor.repository_manager.load_entries
   end
 
-  def find
+  def find(command_parts)
     rerun unless command_parts.part2 && command_parts.part3    
     processor.find(command_parts.part2, command_parts.part3)
   end
 
-  def quit
+  def quit(command_parts)
   end
   
   def get_command
