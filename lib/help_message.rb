@@ -1,12 +1,12 @@
 module HelpMessage
   def help_commands(command = nil)
     return help(command) if command
-    ['load','count','clear','print','print by', 'save to','find'].reduce("") { |text,command| text + help(command) + "\n" }
+    available_commands.reduce("") { |text,command| text + help(command) + "\n" }
   end
 
-  def help command
+  def help(command)
     case command
-    when 'load' then 'load:  Erase any loaded data and parse the specified file'
+    when 'load' then 'load <filename.csv>:  Erase any loaded data and parse the specified file'
     when 'count' then 'count:  counts the number of records in the current queue.'
     when 'clear' then 'clear:  empties the current queue. Queue will remain empty until the next find command.'
     when 'print' then 'print:  prints out a table of the queue.'
@@ -16,5 +16,6 @@ module HelpMessage
     else "Invalid entry: #{command} is not a command."
     end
   end
+
 end
 
