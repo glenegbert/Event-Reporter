@@ -5,7 +5,9 @@ class CommandProcessor
 
   attr_accessor :repository_manager
 
-  def initialize(repository_manager = RepositoryManager.load_entries)
+  # def initialize(repository_manager = RepositoryManager.load_entries)
+  def initialize(repository_manager = RepositoryManager.new)
+
     @repository_manager = repository_manager
   end
 
@@ -44,8 +46,9 @@ class CommandProcessor
   def save_queue(to_file="saved_data.csv")
     File.open(to_file, "w") do |file|
       file.puts headers
-      file.puts @repository_manager.queue.each{|entry| puts entry_format(entry)}
-       end
+      @repository_manager.queue.each { |entry| file.puts entry_format(entry) }
+      # file.puts @repository_manager.queue.each{|entry| puts entry_format(entry)}
+      end
  end
 
 end
