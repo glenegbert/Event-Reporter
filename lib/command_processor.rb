@@ -7,46 +7,64 @@ class CommandProcessor
 
   # def initialize(repository_manager = RepositoryManager.load_entries)
   def initialize(repository_manager = RepositoryManager.new)
-
     @repository_manager = repository_manager
   end
 
-  def print_out
-    headers
-    repository_manager.queue.map { |entry| entry_format(entry)}
+  def queue_print
+    puts headers
+    puts repository_manager.queue.map { |entry| entry_format(entry)}
   end
 
   def headers
-    "LAST NAME".ljust(24, " ") + "FIRST NAME".ljust(24, " ") + "EMAIL".ljust(24, " ") + "ZIPCODE".ljust(12, " ") + "CITY".ljust(24, " ") + "STATE".ljust(20, " ") + "ADDRESS".ljust(28, " ") + "PHONE".ljust(18, " ")
+    "LAST NAME".ljust(24, " ") + "FIRST NAME".ljust(24, " ") + "EMAIL".ljust(40, " ") + "ZIPCODE".ljust(12, " ") + "CITY".ljust(35, " ") + "STATE".ljust(20, " ") + "ADDRESS".ljust(36, " ") + "PHONE".ljust(18, " ")
   end
 
-  def print_by(field)
-      repository_manager.queue.sort_by {|entry| entry.send(field)}.map{|entry| entry_format(entry)}
+  def queue_print_by(field)
+      puts repository_manager.queue.sort_by {|entry| entry.send(field)}.map{|entry| entry_format(entry)}
   end
 
   def entry_format(entry)
     "#{entry.last_name}".ljust(24, " ")+
     "#{entry.first_name}".ljust(24, " ")+
-    "#{entry.email_address}".ljust(24, " ")+
+    "#{entry.email_address}".ljust(40, " ")+
     "#{entry.zipcode}".ljust(12, " ")+
-    "#{entry.city}".ljust(24, " ")+
+    "#{entry.city}".ljust(35, " ")+
     "#{entry.state}".ljust(20, " ")+
-    "#{entry.street}".ljust(28, " ")+
+    "#{entry.street}".ljust(36, " ")+
     "#{entry.homephone}".ljust(18," ")
   end
 
+  def save_format(entry)
+    "#{entry.reg_date}," +
+    "#{entry.last_name}," +
+    "#{entry.first_name}," +
+    "#{entry.email_address}," +
+    "#{entry.homephone}," +
+    "#{entry.street}," +
+    "#{entry.city}," +
+    "#{entry.state}," +
+    "#{entry.zipcode}"
+
+  end
+
   def queue_count
-    repository_manager.queue.length
+    puts repository_manager.queue.length
   end
 
 
-  def save_queue(to_file="saved_data.csv")
-    File.open(to_file, "w") do |file|
-      file.puts headers
-      @repository_manager.queue.each { |entry| file.puts entry_format(entry) }
+  def queue_save_to(to_file="saved_data.csv")
+    file_path = File.join('./test/data', to_file)
+    File.open(file_path, "w") do |file|
+      file.puts " ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode"
+
+      @repository_manager.queue.each { |entry| file.puts save_format(entry) }
       # file.puts @repository_manager.queue.each{|entry| puts entry_format(entry)}
       end
- end
+   end
+
+   def queue_clear
+    repository_manager.queue = []
+   end
 
 end
 
