@@ -2,6 +2,7 @@ require './test/test_helper'
 require 'repository_manager'
 
 class EntryRepositoryTest < Minitest::Test
+
   def test_loads_entries
     repository_manager = RepositoryManager.new
     repository_manager.load_entries('event_two_attendees.csv')

@@ -1,4 +1,4 @@
-require 'entry'
+require 'entry'  # ~> LoadError: cannot load such file -- entry
 require 'csv'
 
 class RepositoryManager
@@ -35,3 +35,10 @@ class RepositoryManager
   end
 
 end
+
+# ~> LoadError
+# ~> cannot load such file -- entry
+# ~>
+# ~> /Users/glenegbert/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/rubygems/core_ext/kernel_require.rb:55:in `require'
+# ~> /Users/glenegbert/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/rubygems/core_ext/kernel_require.rb:55:in `require'
+# ~> /Users/glenegbert/Dropbox/ruby_projects/event_reporter/lib/repository_manager.rb:1:in `<main>'

@@ -20,8 +20,8 @@ class CommandCommandProcessorTest < Minitest::Test
     processor = CommandProcessor.new
     processor.repository_manager.instance_variable_set(:@queue, data.map { |row| Entry.new(row) })
 
-    assert processor.print_out[0].include?("Glen")
-    assert processor.print_out[1].include?("Brown")
+    assert processor.queue_print[0].include?("Glen")
+    assert processor.queue_print[1].include?("Brown")
   end
 
   def test_queue_can_be_sorted_before_printing
@@ -34,7 +34,7 @@ class CommandCommandProcessorTest < Minitest::Test
     processor = CommandProcessor.new
     processor.repository_manager.instance_variable_set(:@queue, data.map { |row| Entry.new(row) })
 
-    assert processor.print_by("city")[0].include?("Downtown")
+    assert processor.queue_print_by("city")[0].include?("Downtown")
   end
 
   def test_number_records_que_can_be_counted
@@ -52,7 +52,6 @@ class CommandCommandProcessorTest < Minitest::Test
 
 
   def test_data_is_loaded_into_the_queue_by_default
-
     processor = CommandProcessor.new
 
     assert_equal 0, processor.repository_manager.entries.length
@@ -73,19 +72,32 @@ class CommandCommandProcessorTest < Minitest::Test
   end
 
   def test_data_in_queue_can_be_saved_to_a_file
-    data =   [{:regdate => "11/12/08 10:47", :first_name => "Glen",:last_name => "Egbert",
-      :email_address => "123@gmail.com", :homephone => "303.564.9379", :street => "326 Wright Street",
-      :city => "Lakewood", :state => "CO", :zipcode => "80228"}, {:regdate => "11/12/08 10:47", :first_name => "James",
-      :last_name => "Brown", :email_address => "shebang@gmail.com", :homephone => "303.123.9379", :street => "123 Get on Up Street",
-      :city => "Downtown", :state => "CO", :zipcode => "87543"}]
+    data =   [{ :regdate => "11/12/08 10:47",
+                :first_name => "Glen",
+                :last_name => "Egbert",
+                :email_address => "123@gmail.com",
+                :homephone => "303.564.9379",
+                :street => "326 Wright Street",
+                :city => "Lakewood",
+                :state => "CO",
+                :zipcode => "80228"},
+
+                {:regdate => "11/12/08 10:47",
+                :first_name => "James",
+                :last_name => "Brown",
+                :email_address => "shebang@gmail.com",
+                :homephone => "303.123.9379",
+                :street => "123 Get on Up Street",
+                :city => "Downtown",
+                :state => "CO",
+                :zipcode => "87543"}]
 
     processor = CommandProcessor.new
 
     processor.repository_manager.instance_variable_set(:@queue, data.map { |row| Entry.new(row) })
 
-    processor.save_queue("saved_data.csv")
+    processor.queue_save_to("saved_data.csv")
 
-    assert File.exist? "saved_data.csv"
-
+    assert File.exist?("test/data/saved_data.csv")
   end
 end

@@ -42,14 +42,14 @@ attr_reader :command_processor
         end
       when "queue"
         if word_count == 2
-        command_processor.send(word_array[0] + "_" + word_array[1])
+        puts command_processor.send(word_array[0] + "_" + word_array[1])
         elsif word_array[2] == "by"
-          command_processor.queue_print_by(word_array[3])
+        puts command_processor.queue_print_by(word_array[3])
         elsif word_array[2] == "to"
           command_processor.queue_save_to(word_array[3])
         end
       when "find"
-        command_processor.repository_manager.find(word_array[1],word_array[2])
+        command_processor.repository_manager.find(word_array[1],word_array[2..-1].join(" "))
       end
   end
 

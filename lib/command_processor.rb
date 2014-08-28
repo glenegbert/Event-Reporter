@@ -12,7 +12,7 @@ class CommandProcessor
 
   def queue_print
     puts headers
-    puts repository_manager.queue.map { |entry| entry_format(entry)}
+    repository_manager.queue.map { |entry| entry_format(entry)}
   end
 
   def headers
@@ -20,7 +20,8 @@ class CommandProcessor
   end
 
   def queue_print_by(field)
-      puts repository_manager.queue.sort_by {|entry| entry.send(field)}.map{|entry| entry_format(entry)}
+      puts headers
+      repository_manager.queue.sort_by {|entry| entry.send(field)}.map{|entry| entry_format(entry)}
   end
 
   def entry_format(entry)
@@ -48,7 +49,7 @@ class CommandProcessor
   end
 
   def queue_count
-    puts repository_manager.queue.length
+    repository_manager.queue.length
   end
 
 
